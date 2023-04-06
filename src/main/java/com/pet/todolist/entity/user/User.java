@@ -1,7 +1,7 @@
 package com.pet.todolist.entity.user;
 
 import com.pet.todolist.entity.Profile;
-import com.pet.todolist.token.Token;
+import com.pet.todolist.entity.token.Token;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -134,13 +134,13 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                ", tokens=" + tokens +
-                '}';
+               "id=" + id +
+               ", firstname='" + firstname + '\'' +
+               ", lastname='" + lastname + '\'' +
+               ", email='" + email + '\'' +
+               ", password='" + password + '\'' +
+               ", role=" + role +
+               ", tokens=" + tokens +
+               '}';
     }
 }

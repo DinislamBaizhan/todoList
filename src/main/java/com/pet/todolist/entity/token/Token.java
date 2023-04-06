@@ -1,4 +1,4 @@
-package com.pet.todolist.token;
+package com.pet.todolist.entity.token;
 
 import com.pet.todolist.entity.user.User;
 import jakarta.persistence.*;

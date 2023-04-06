@@ -1,19 +1,19 @@
-package com.pet.todolist.service;
+package com.pet.todolist.service.impl;
 
 import com.pet.todolist.repository.TokenRepository;
+import com.pet.todolist.service.interfaces.LogoutService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LogoutService implements LogoutHandler {
+public class LogoutServiceImpl implements LogoutService {
 
     private final TokenRepository tokenRepository;
 
-    public LogoutService(TokenRepository tokenRepository) {
+    public LogoutServiceImpl(TokenRepository tokenRepository) {
         this.tokenRepository = tokenRepository;
     }
 
