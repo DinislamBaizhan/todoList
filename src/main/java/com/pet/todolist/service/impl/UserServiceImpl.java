@@ -1,9 +1,9 @@
 package com.pet.todolist.service.impl;
 
-import com.pet.todolist.auth.RegisterRequest;
-import com.pet.todolist.entity.Profile;
+import com.pet.todolist.entity.profile.Profile;
 import com.pet.todolist.entity.user.Role;
 import com.pet.todolist.entity.user.User;
+import com.pet.todolist.entity.user.auth.RegisterRequest;
 import com.pet.todolist.repository.UserRepository;
 import com.pet.todolist.service.interfaces.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;

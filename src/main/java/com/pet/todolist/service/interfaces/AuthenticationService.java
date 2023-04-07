@@ -1,9 +1,9 @@
 package com.pet.todolist.service.interfaces;
 
-import com.pet.todolist.auth.AuthenticationRequest;
-import com.pet.todolist.auth.AuthenticationResponse;
-import com.pet.todolist.auth.RegisterRequest;
 import com.pet.todolist.entity.user.User;
+import com.pet.todolist.entity.user.auth.AuthenticationRequest;
+import com.pet.todolist.entity.user.auth.AuthenticationResponse;
+import com.pet.todolist.entity.user.auth.RegisterRequest;
 
 public interface AuthenticationService {
     AuthenticationResponse register(RegisterRequest request);

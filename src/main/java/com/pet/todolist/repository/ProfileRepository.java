@@ -1,6 +1,6 @@
 package com.pet.todolist.repository;
 
-import com.pet.todolist.entity.Profile;
+import com.pet.todolist.entity.profile.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

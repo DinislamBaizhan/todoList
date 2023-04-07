@@ -1,6 +1,6 @@
 package com.pet.todolist.service.impl;
 
-import com.pet.todolist.entity.Profile;
+import com.pet.todolist.entity.profile.Profile;
 import com.pet.todolist.repository.ProfileRepository;
 import com.pet.todolist.service.interfaces.ProfileService;
 import org.springframework.stereotype.Service;
@@ -21,5 +21,10 @@ public class ProfileServiceImpl implements ProfileService {
 
         return profileRepository.findByEmail(email);
 
+    }
+
+    @Override
+    public Profile findById(Long id) {
+        return profileRepository.findById(id).get();
     }
 }

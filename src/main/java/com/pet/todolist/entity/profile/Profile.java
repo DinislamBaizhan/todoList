@@ -1,18 +1,21 @@
-package com.pet.todolist.entity;
+package com.pet.todolist.entity.profile;
 
 
+import com.pet.todolist.entity.BaseEntity;
+import com.pet.todolist.entity.task.Task;
 import com.pet.todolist.entity.user.User;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "profiles")
-public class Profile {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Profile extends BaseEntity {
     private String email;
     private String firstName;
     private String lastName;
+    @OneToMany(mappedBy = "profile")
+    private List<Task> taskList;
 
     @OneToOne()
     @JoinColumn(name = "user_id")
@@ -23,7 +26,6 @@ public class Profile {
         this.firstName = firstName;
         this.lastName = lastName;
         this.user = user;
-        this.id = user.getId();
     }
 
     public Profile() {
@@ -36,14 +38,6 @@ public class Profile {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstName() {

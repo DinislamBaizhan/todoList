@@ -1,6 +1,7 @@
 package com.pet.todolist.entity.user;
 
-import com.pet.todolist.entity.Profile;
+import com.pet.todolist.entity.BaseEntity;
+import com.pet.todolist.entity.profile.Profile;
 import com.pet.todolist.entity.token.Token;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,11 +13,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "_user")
-public class User implements UserDetails {
-
-    @Id
-    @GeneratedValue
-    private Long id;
+public class User extends BaseEntity implements UserDetails {
     private String firstname;
     private String lastname;
     private String email;
@@ -75,14 +72,6 @@ public class User implements UserDetails {
         this.profile = new Profile(email, firstname, lastname, this);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getFirstname() {
         return firstname;
     }
@@ -134,13 +123,12 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         return "User{" +
-               "id=" + id +
-               ", firstname='" + firstname + '\'' +
-               ", lastname='" + lastname + '\'' +
-               ", email='" + email + '\'' +
-               ", password='" + password + '\'' +
-               ", role=" + role +
-               ", tokens=" + tokens +
-               '}';
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", tokens=" + tokens +
+                '}';
     }
 }

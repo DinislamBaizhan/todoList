@@ -1,6 +1,5 @@
 package com.pet.todolist.repository;
 
-import com.pet.todolist.auth.RegisterRequest;
 import com.pet.todolist.entity.user.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

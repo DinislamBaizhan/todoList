@@ -1,7 +1,7 @@
 package com.pet.todolist.service.interfaces;
 
-import com.pet.todolist.auth.RegisterRequest;
 import com.pet.todolist.entity.user.User;
+import com.pet.todolist.entity.user.auth.RegisterRequest;
 
 import java.util.Optional;
 

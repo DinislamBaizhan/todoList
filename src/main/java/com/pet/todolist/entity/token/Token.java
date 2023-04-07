@@ -1,10 +1,11 @@
 package com.pet.todolist.entity.token;
 
+import com.pet.todolist.entity.BaseEntity;
 import com.pet.todolist.entity.user.User;
 import jakarta.persistence.*;
 
 @Entity
-public class Token {
+public class Token extends BaseEntity {
 
     @Id
     @GeneratedValue

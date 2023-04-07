@@ -1,4 +1,4 @@
-package com.pet.todolist.auth;
+package com.pet.todolist.entity.user.auth;
 
 public class AuthenticationRequest {
     private String email;

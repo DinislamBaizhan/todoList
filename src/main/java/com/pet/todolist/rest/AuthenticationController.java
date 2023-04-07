@@ -1,12 +1,12 @@
 package com.pet.todolist.rest;
 
 
-import com.pet.todolist.auth.AuthenticationRequest;
-import com.pet.todolist.auth.AuthenticationResponse;
-import com.pet.todolist.auth.RegisterRequest;
-import com.pet.todolist.entity.Profile;
-import com.pet.todolist.entity.ProfileDTO;
+import com.pet.todolist.entity.profile.Profile;
+import com.pet.todolist.entity.profile.ProfileDTO;
 import com.pet.todolist.entity.user.User;
+import com.pet.todolist.entity.user.auth.AuthenticationRequest;
+import com.pet.todolist.entity.user.auth.AuthenticationResponse;
+import com.pet.todolist.entity.user.auth.RegisterRequest;
 import com.pet.todolist.repository.UserRepository;
 import com.pet.todolist.service.impl.AuthenticationServiceImpl;
 import com.pet.todolist.service.impl.ProfileServiceImpl;

@@ -1,12 +1,12 @@
 package com.pet.todolist.service.impl;
 
-import com.pet.todolist.auth.AuthenticationRequest;
-import com.pet.todolist.auth.AuthenticationResponse;
-import com.pet.todolist.auth.RegisterRequest;
 import com.pet.todolist.config.JwtService;
 import com.pet.todolist.entity.token.Token;
 import com.pet.todolist.entity.token.TokenType;
 import com.pet.todolist.entity.user.User;
+import com.pet.todolist.entity.user.auth.AuthenticationRequest;
+import com.pet.todolist.entity.user.auth.AuthenticationResponse;
+import com.pet.todolist.entity.user.auth.RegisterRequest;
 import com.pet.todolist.repository.TokenRepository;
 import com.pet.todolist.service.interfaces.AuthenticationService;
 import com.pet.todolist.service.interfaces.UserService;
