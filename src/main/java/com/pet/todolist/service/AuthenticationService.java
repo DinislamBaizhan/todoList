@@ -1,4 +1,4 @@
-package com.pet.todolist.service.impl;
+package com.pet.todolist.service;
 
 import com.pet.todolist.config.JwtService;
 import com.pet.todolist.entity.token.Token;
@@ -8,25 +8,20 @@ import com.pet.todolist.entity.user.auth.AuthenticationRequest;
 import com.pet.todolist.entity.user.auth.AuthenticationResponse;
 import com.pet.todolist.entity.user.auth.RegisterRequest;
 import com.pet.todolist.repository.TokenRepository;
-import com.pet.todolist.service.interfaces.AuthenticationService;
-import com.pet.todolist.service.interfaces.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthenticationServiceImpl implements AuthenticationService {
-    private final UserServiceImpl userServiceImpl;
+public class AuthenticationService {
     private final UserService userService;
     private final TokenRepository tokenRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationServiceImpl(UserServiceImpl userServiceImpl,
-                                     UserService userService, TokenRepository tokenRepository,
-                                     JwtService jwtService,
-                                     AuthenticationManager authenticationManager) {
-        this.userServiceImpl = userServiceImpl;
+    public AuthenticationService(UserService userService, TokenRepository tokenRepository,
+                                 JwtService jwtService,
+                                 AuthenticationManager authenticationManager) {
         this.userService = userService;
         this.tokenRepository = tokenRepository;
         this.jwtService = jwtService;
@@ -35,7 +30,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) {
 
-        User user = userServiceImpl.createUser(request);
+        User user = userService.createUser(request);
         String jwtToken = jwtService.generateToken(user);
         saveUserToken(user, jwtToken);
         return new AuthenticationResponse(
@@ -51,7 +46,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         request.getPassword()
                 )
         );
-        var user = userServiceImpl.findByEmail(request.getEmail())
+        var user = userService.findByEmail(request.getEmail())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         revokeAllUserTokens(user);

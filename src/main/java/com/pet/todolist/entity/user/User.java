@@ -1,5 +1,6 @@
 package com.pet.todolist.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pet.todolist.entity.BaseEntity;
 import com.pet.todolist.entity.profile.Profile;
 import com.pet.todolist.entity.token.Token;
@@ -8,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -21,21 +23,30 @@ public class User extends BaseEntity implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<Token> tokens;
+    private List<Token> tokens = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Profile profile;
 
     @Override
     public String getPassword() {
         return password;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     @Override

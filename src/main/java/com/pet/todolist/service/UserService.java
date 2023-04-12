@@ -1,23 +1,22 @@
-package com.pet.todolist.service.impl;
+package com.pet.todolist.service;
 
 import com.pet.todolist.entity.profile.Profile;
 import com.pet.todolist.entity.user.Role;
 import com.pet.todolist.entity.user.User;
 import com.pet.todolist.entity.user.auth.RegisterRequest;
 import com.pet.todolist.repository.UserRepository;
-import com.pet.todolist.service.interfaces.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserService {
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
     }

@@ -1,13 +1,12 @@
 package com.pet.todolist.entity.task;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pet.todolist.entity.BaseEntity;
 import com.pet.todolist.entity.profile.Profile;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tasks")
 public class Task extends BaseEntity {
     private String title;
     private String content;
@@ -20,6 +19,7 @@ public class Task extends BaseEntity {
         this.profile = profile;
     }
 
+    @JsonBackReference
     public Profile getProfile() {
         return profile;
     }

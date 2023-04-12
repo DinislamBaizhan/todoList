@@ -2,14 +2,13 @@ package com.pet.todolist.rest;
 
 
 import com.pet.todolist.entity.profile.Profile;
-import com.pet.todolist.entity.profile.ProfileDTO;
 import com.pet.todolist.entity.user.User;
 import com.pet.todolist.entity.user.auth.AuthenticationRequest;
 import com.pet.todolist.entity.user.auth.AuthenticationResponse;
 import com.pet.todolist.entity.user.auth.RegisterRequest;
 import com.pet.todolist.repository.UserRepository;
-import com.pet.todolist.service.impl.AuthenticationServiceImpl;
-import com.pet.todolist.service.impl.ProfileServiceImpl;
+import com.pet.todolist.service.AuthenticationService;
+import com.pet.todolist.service.ProfileService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,15 +23,15 @@ import java.util.Optional;
 public class AuthenticationController {
 
     private final ModelMapper modelMapper;
-    private final AuthenticationServiceImpl service;
+    private final AuthenticationService service;
 
-    private final ProfileServiceImpl profileService;
+    private final ProfileService profileService;
 
     private final UserRepository userRepository;
 
     public AuthenticationController(ModelMapper modelMapper,
-                                    AuthenticationServiceImpl service,
-                                    ProfileServiceImpl profileService,
+                                    AuthenticationService service,
+                                    ProfileService profileService,
                                     UserRepository userRepository) {
         this.modelMapper = modelMapper;
         this.service = service;
@@ -66,16 +65,12 @@ public class AuthenticationController {
 
 
     @GetMapping("/profile")
-    public ResponseEntity<ProfileDTO> profile() {
+    public ResponseEntity<Profile> profile() {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<Profile> profile = profileService.getProfileByEmail(auth.getName());
-        if (auth.isAuthenticated() && profile.isPresent()) {
 
-            ProfileDTO profileDTO = modelMapper.map(profile.get(), ProfileDTO.class);
-            return ResponseEntity.ok(profileDTO);
+        return ResponseEntity.ok(profile.get());
 
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }

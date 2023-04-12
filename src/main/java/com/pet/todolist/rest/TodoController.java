@@ -1,49 +1,59 @@
 package com.pet.todolist.rest;
 
+import com.pet.todolist.entity.profile.Profile;
 import com.pet.todolist.entity.task.Task;
-import com.pet.todolist.entity.task.TaskDTO;
-import com.pet.todolist.service.interfaces.ProfileService;
-import com.pet.todolist.service.interfaces.TodoRepository;
-import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
+import com.pet.todolist.repository.TodoRepository;
+import com.pet.todolist.service.ProfileService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/todo")
 public class TodoController {
     private final TodoRepository todoRepository;
     private final ProfileService profileService;
-    private final ModelMapper modelMapper;
 
-    public TodoController(TodoRepository todoRepository, ProfileService profileService, ModelMapper modelMapper) {
+    public TodoController(TodoRepository todoRepository, ProfileService profileService) {
         this.todoRepository = todoRepository;
         this.profileService = profileService;
-        this.modelMapper = modelMapper;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<TaskDTO> addTodo(Authentication authentication, @RequestBody TaskDTO taskDTO) {
+    @PostMapping
+    public Task addTodo(Authentication authentication, @RequestBody Task task) {
 
         var profile = profileService.getProfileByEmail(authentication.getName());
 
         if (profile.isPresent()) {
-            Task task = new Task(
-                    taskDTO.getTitle(),
-                    taskDTO.getContent(),
-                    profile.get()
-            );
-            Task s = todoRepository.save(task);
-            TaskDTO todoS = modelMapper.map(s, TaskDTO.class);
-            return ResponseEntity.ok(taskDTO);
+            return todoRepository.save(task);
         }
-        return ResponseEntity.badRequest().build();
+        return null;
 
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<Task> getById(@PathVariable Long id) {
-        var task = todoRepository.getReferenceById(id);
-        return ResponseEntity.ok(task);
+    @GetMapping
+    public List<Task> getAllTasks(Authentication authentication) {
+
+        var profile = profileService.getProfileByEmail(authentication.getName());
+
+        return profile.map(Profile::getTaskList).orElse(null);
+
+    }
+
+
+    @GetMapping("/{id}")
+    public Task getById(@PathVariable int id, Authentication authentication) {
+        var profile = profileService.getProfileByEmail(authentication.getName()).get();
+
+        return profile.getTaskList().get(id);
+    }
+
+    @DeleteMapping
+    public void deleteById(@PathVariable Long id, Authentication authentication) {
+
+        var profile = profileService.getProfileByEmail(authentication.getName()).get();
+
+        todoRepository.deleteById(id);
     }
 }

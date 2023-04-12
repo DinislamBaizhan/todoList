@@ -1,11 +1,14 @@
 package com.pet.todolist.entity.profile;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pet.todolist.entity.BaseEntity;
 import com.pet.todolist.entity.task.Task;
 import com.pet.todolist.entity.user.User;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,7 +18,7 @@ public class Profile extends BaseEntity {
     private String firstName;
     private String lastName;
     @OneToMany(mappedBy = "profile")
-    private List<Task> taskList;
+    private List<Task> taskList = new ArrayList<>();
 
     @OneToOne()
     @JoinColumn(name = "user_id")
@@ -25,6 +28,25 @@ public class Profile extends BaseEntity {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.user = user;
+    }
+
+    @JsonIgnore
+    @JsonManagedReference
+    public List<Task> getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(List<Task> taskList) {
+        this.taskList = taskList;
+    }
+
+    @JsonIgnore
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -54,13 +76,5 @@ public class Profile extends BaseEntity {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }
