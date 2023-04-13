@@ -16,14 +16,17 @@ public class ProfileService {
     }
 
 
-    public Optional<Profile> getProfileByEmail(String email) {
+    public Profile getByEmail(String email) {
 
-        return profileRepository.findByEmail(email);
+        Optional<Profile> optionalProfile = profileRepository.findByEmail(email);
+
+        Profile profile = null;
+
+        if (optionalProfile.isPresent()) {
+            profile = optionalProfile.get();
+        }
+        return profile;
 
     }
-
-
-    public Profile findById(Long id) {
-        return profileRepository.findById(id).get();
-    }
+    
 }

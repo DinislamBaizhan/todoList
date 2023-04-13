@@ -9,7 +9,6 @@ import com.pet.todolist.entity.user.auth.RegisterRequest;
 import com.pet.todolist.repository.UserRepository;
 import com.pet.todolist.service.AuthenticationService;
 import com.pet.todolist.service.ProfileService;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -21,19 +20,16 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthenticationController {
-
-    private final ModelMapper modelMapper;
     private final AuthenticationService service;
 
     private final ProfileService profileService;
 
     private final UserRepository userRepository;
 
-    public AuthenticationController(ModelMapper modelMapper,
-                                    AuthenticationService service,
-                                    ProfileService profileService,
-                                    UserRepository userRepository) {
-        this.modelMapper = modelMapper;
+    public AuthenticationController(
+            AuthenticationService service,
+            ProfileService profileService,
+            UserRepository userRepository) {
         this.service = service;
         this.profileService = profileService;
         this.userRepository = userRepository;
@@ -65,12 +61,11 @@ public class AuthenticationController {
 
 
     @GetMapping("/profile")
-    public ResponseEntity<Profile> profile() {
+    public Profile profile() {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<Profile> profile = profileService.getProfileByEmail(auth.getName());
 
-        return ResponseEntity.ok(profile.get());
+        return profileService.getByEmail(auth.getName());
 
     }
 }
