@@ -1,6 +1,7 @@
 package com.pet.todolist.rest;
 
 import com.pet.todolist.entity.profile.Profile;
+import com.pet.todolist.entity.task.SubTask;
 import com.pet.todolist.entity.task.Task;
 import com.pet.todolist.service.ProfileService;
 import com.pet.todolist.service.TaskService;
@@ -51,8 +52,14 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable int id, Authentication authentication) {
+    public void deleteById(@PathVariable int id) {
 
         taskService.deleteById(id);
+    }
+
+    @PostMapping("/subtask/{taskId}")
+    public Task subTasks(@RequestBody SubTask subTask, @PathVariable Long taskId) {
+        return taskService.addSubTask(taskId, subTask);
+
     }
 }

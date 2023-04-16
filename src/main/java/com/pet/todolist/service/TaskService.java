@@ -2,6 +2,7 @@ package com.pet.todolist.service;
 
 import com.pet.todolist.entity.category.Category;
 import com.pet.todolist.entity.profile.Profile;
+import com.pet.todolist.entity.task.SubTask;
 import com.pet.todolist.entity.task.Task;
 import com.pet.todolist.repository.CategoryRepository;
 import com.pet.todolist.repository.ProfileRepository;
@@ -50,13 +51,22 @@ public class TaskService {
         return taskRepository.findTasksByProfileId(id);
     }
 
-    public Task getById(int id) {
-        return taskRepository.getReferenceById((long) id);
+    public Task getById(Long id) {
+        return taskRepository.getReferenceById(id);
     }
 
     public void deleteById(int id) {
 
         taskRepository.deleteById((long) id);
 
+    }
+
+    public Task addSubTask(Long taskId, SubTask subTask) {
+        Optional<Task> task = taskRepository.findById(taskId);
+        if (task.isPresent()) {
+            task.get().addSubTasks(subTask);
+            return taskRepository.save(task.get());
+        }
+        return null;
     }
 }
