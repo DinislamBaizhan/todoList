@@ -1,5 +1,6 @@
 package com.pet.todolist.entity.task;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pet.todolist.entity.BaseEntity;
 import com.pet.todolist.entity.category.Category;
 import com.pet.todolist.entity.profile.Profile;
@@ -17,6 +18,7 @@ public class Task extends BaseEntity {
     @JoinColumn(name = "category_id")
     private Category category;
     @ManyToOne
+    @JsonIgnore
     private Profile profile;
 
     public Task() {
