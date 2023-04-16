@@ -4,13 +4,15 @@ import com.pet.todolist.entity.profile.Profile;
 import com.pet.todolist.entity.task.Task;
 import com.pet.todolist.service.ProfileService;
 import com.pet.todolist.service.TaskService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/todo")
+@RequestMapping("/api/v1/task")
 public class TaskController {
     private final ProfileService profileService;
     private final TaskService taskService;
@@ -21,11 +23,13 @@ public class TaskController {
     }
 
     @PostMapping
-    public Task addTodo(Authentication authentication, @RequestBody Task task) {
+    public ResponseEntity<Task> save(Principal principal, @RequestBody Task task) {
 
-        var profile = profileService.getByEmail(authentication.getName());
+        var profile = profileService.getByEmail(principal.getName());
 
-        return taskService.save(task, profile);
+        var savedTask = taskService.save(task, profile);
+
+        return ResponseEntity.ok(savedTask);
 
     }
 

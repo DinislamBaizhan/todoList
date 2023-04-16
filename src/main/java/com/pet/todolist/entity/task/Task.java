@@ -1,31 +1,42 @@
 package com.pet.todolist.entity.task;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pet.todolist.entity.BaseEntity;
+import com.pet.todolist.entity.category.Category;
 import com.pet.todolist.entity.profile.Profile;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Task extends BaseEntity {
     private String title;
     private String content;
+    private Priority priority;
+    private Status status;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
     @ManyToOne
     private Profile profile;
 
-    public Task(String title, String content, Profile profile) {
+    public Task() {
+    }
+
+    public Task(String title, String content, Priority priority, Status status, Category category, Profile profile) {
         this.title = title;
         this.content = content;
+        this.priority = priority;
+        this.status = status;
+        this.category = category;
         this.profile = profile;
     }
 
-    @JsonBackReference
-    public Profile getProfile() {
-        return profile;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setProfile(Profile profile) {
-        this.profile = profile;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public String getTitle() {
@@ -44,6 +55,27 @@ public class Task extends BaseEntity {
         this.content = content;
     }
 
-    public Task() {
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 }

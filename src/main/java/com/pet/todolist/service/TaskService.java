@@ -1,7 +1,9 @@
 package com.pet.todolist.service;
 
+import com.pet.todolist.entity.category.Category;
 import com.pet.todolist.entity.profile.Profile;
 import com.pet.todolist.entity.task.Task;
+import com.pet.todolist.repository.CategoryRepository;
 import com.pet.todolist.repository.ProfileRepository;
 import com.pet.todolist.repository.TaskRepository;
 import org.springframework.stereotype.Service;
@@ -14,14 +16,19 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final ProfileRepository profileRepository;
+    private final CategoryRepository categoryRepository;
 
-    public TaskService(TaskRepository taskRepository, ProfileRepository profileRepository) {
+    public TaskService(TaskRepository taskRepository, ProfileRepository profileRepository, CategoryRepository categoryRepository) {
         this.taskRepository = taskRepository;
         this.profileRepository = profileRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public Task save(Task task, Profile profile) {
+        Optional<Category> category = categoryRepository.findById(task.getCategory().getId());
+
         task.setProfile(profile);
+        task.setCategory(category.get());
         return taskRepository.save(task);
     }
 
