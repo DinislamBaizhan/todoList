@@ -8,7 +8,6 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class SubTask extends BaseEntity {
-
     private String title;
     private String content;
     private Priority priority;
@@ -26,7 +25,6 @@ public class SubTask extends BaseEntity {
         this.content = content;
         this.priority = priority;
         this.status = status;
-//        this.task = task;
     }
 
     public String getTitle() {

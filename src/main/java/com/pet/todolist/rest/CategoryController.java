@@ -1,5 +1,6 @@
 package com.pet.todolist.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.pet.todolist.entity.category.Category;
 import com.pet.todolist.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
@@ -29,5 +30,15 @@ public class CategoryController {
     @GetMapping("/{id}")
     public Category getById(@PathVariable Long id) {
         return categoryService.getById(id);
+    }
+
+    @PatchMapping("/{id}")
+    public Category edit(@RequestBody String name, @PathVariable Long id) throws JsonProcessingException {
+        return categoryService.edit(name, id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        categoryService.delete(id);
     }
 }

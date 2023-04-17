@@ -57,9 +57,30 @@ public class TaskController {
         taskService.deleteById(id);
     }
 
+    @PutMapping("/{id}")
+    public Task edit(Authentication authentication, @PathVariable Long id, @RequestBody Task task) {
+        Profile profile = profileService.getByEmail(authentication.getName());
+        return taskService.edit(id, task, profile);
+    }
+
     @PostMapping("/subtask/{taskId}")
     public Task subTasks(@RequestBody SubTask subTask, @PathVariable Long taskId) {
         return taskService.addSubTask(taskId, subTask);
 
     }
+
+    @GetMapping("/subtask/{taskId}")
+    public List<SubTask> getAll(@PathVariable Long taskId) {
+        return taskService.getAll(taskId);
+    }
+
+    @PutMapping("/subtask/{taskId}")
+    public SubTask edit(@PathVariable Long taskId, @RequestBody SubTask subTask) {
+        return taskService.edit(taskId, subTask);
+    }
+
+//    @DeleteMapping("/subtask/{taskId}")
+//    public void delete(@PathVariable Long taskId, @RequestBody Long subTaskId) {
+//        taskService.deleteSubtask(taskId, subTaskId);
+//    }
 }

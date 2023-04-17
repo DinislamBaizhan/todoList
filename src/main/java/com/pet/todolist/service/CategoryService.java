@@ -1,5 +1,7 @@
 package com.pet.todolist.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pet.todolist.entity.category.Category;
 import com.pet.todolist.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
@@ -29,5 +31,20 @@ public class CategoryService {
     public Category getById(Long id) {
         Optional<Category> optionalCategory = categoryRepository.findById(id);
         return optionalCategory.orElse(null);
+    }
+
+    public Category edit(String name, Long id) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        var mappedName = objectMapper.readValue(name, Category.class);
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
+        if (optionalCategory.isPresent()) {
+            optionalCategory.get().setName(mappedName.getName());
+            return categoryRepository.save(optionalCategory.get());
+        }
+        return null;
+    }
+
+    public void delete(Long id) {
+        categoryRepository.deleteById(id);
     }
 }
