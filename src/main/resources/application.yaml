@@ -14,3 +14,10 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+server:
+  ssl:
+    enabled: true
+    key-store: classpath:keystore/todoList.p12
+    key-store-type: PKCS12
+    key-password: 123456
+    key-store-password: 123456

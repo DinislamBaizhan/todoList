@@ -20,7 +20,7 @@ public class Profile extends BaseEntity {
     @OneToMany(mappedBy = "profile")
     private List<Task> taskList = new ArrayList<>();
 
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 

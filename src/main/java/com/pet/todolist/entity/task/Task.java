@@ -16,6 +16,7 @@ public class Task extends BaseEntity {
     private String content;
     private Priority priority;
     private Status status;
+    //    private LocalDateTime deadLine;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -37,6 +38,14 @@ public class Task extends BaseEntity {
         this.profile = profile;
         this.subTasks = subTasks;
     }
+
+//    public LocalDateTime getDeadLine() {
+//        return deadLine;
+//    }
+//
+//    public void setDeadLine(LocalDateTime deadLine) {
+//        this.deadLine = deadLine;
+//    }
 
     public String getTitle() {
         return title;

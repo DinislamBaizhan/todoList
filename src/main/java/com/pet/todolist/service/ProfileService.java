@@ -28,5 +28,24 @@ public class ProfileService {
         return profile;
 
     }
-    
+
+    public Profile edit(String email, Profile profile) {
+        var newProfile = profileRepository.findByEmail(email);
+
+        if (newProfile.isPresent()) {
+
+            newProfile.get().setFirstName(profile.getFirstName());
+            newProfile.get().setLastName(profile.getLastName());
+
+            return profileRepository.save(newProfile.get());
+        }
+        return null;
+    }
+
+    public void delete(String email) {
+        Optional<Profile> profile = profileRepository.findByEmail(email);
+
+        profile.ifPresent(profileRepository::delete);
+    }
+
 }

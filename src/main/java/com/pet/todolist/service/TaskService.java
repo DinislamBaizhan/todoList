@@ -21,7 +21,10 @@ public class TaskService {
     private final CategoryRepository categoryRepository;
     private final SubTaskRepository subTaskRepository;
 
-    public TaskService(TaskRepository taskRepository, ProfileRepository profileRepository, CategoryRepository categoryRepository, SubTaskRepository subTaskRepository) {
+    public TaskService(TaskRepository taskRepository,
+                       ProfileRepository profileRepository,
+                       CategoryRepository categoryRepository,
+                       SubTaskRepository subTaskRepository) {
         this.taskRepository = taskRepository;
         this.profileRepository = profileRepository;
         this.categoryRepository = categoryRepository;

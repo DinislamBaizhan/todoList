@@ -37,4 +37,15 @@ public class UserService {
     public Optional<User> findByEmail(String email) {
         return repository.findByEmail(email);
     }
+
+//    public User edit(Long id, User user) {
+//        Optional<User> optionalUser = repository.findById(id);
+//        if (optionalUser.isPresent()) {
+//            optionalUser.get().setFirstname(user.getFirstname());
+//            optionalUser.get().setLastname(user.getLastname());
+//
+//            return repository.save(optionalUser.get());
+//        }
+//        return null;
+//    }
 }
