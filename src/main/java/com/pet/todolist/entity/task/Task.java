@@ -7,6 +7,7 @@ import com.pet.todolist.entity.category.Category;
 import com.pet.todolist.entity.profile.Profile;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -16,7 +17,7 @@ public class Task extends BaseEntity {
     private String content;
     private Priority priority;
     private Status status;
-    //    private LocalDateTime deadLine;
+    private LocalDateTime deadLine;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -39,13 +40,13 @@ public class Task extends BaseEntity {
         this.subTasks = subTasks;
     }
 
-//    public LocalDateTime getDeadLine() {
-//        return deadLine;
-//    }
-//
-//    public void setDeadLine(LocalDateTime deadLine) {
-//        this.deadLine = deadLine;
-//    }
+    public LocalDateTime getDeadLine() {
+        return deadLine;
+    }
+
+    public void setDeadLine(LocalDateTime deadLine) {
+        this.deadLine = deadLine;
+    }
 
     public String getTitle() {
         return title;

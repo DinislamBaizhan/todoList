@@ -1,7 +1,6 @@
 package com.pet.todolist.rest;
 
 import com.pet.todolist.entity.profile.Profile;
-import com.pet.todolist.entity.task.SubTask;
 import com.pet.todolist.entity.task.Task;
 import com.pet.todolist.service.ProfileService;
 import com.pet.todolist.service.TaskService;
@@ -43,18 +42,11 @@ public class TaskController {
 
     }
 
-
     @GetMapping("/{id}")
     public Task getById(@PathVariable Long id, Authentication authentication) {
         var profile = profileService.getByEmail(authentication.getName());
 
         return taskService.getByIdAndUserEmail(id, profile.getEmail());
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable int id) {
-
-        taskService.deleteById(id);
     }
 
     @PutMapping("/{id}")
@@ -63,24 +55,9 @@ public class TaskController {
         return taskService.edit(id, task, profile);
     }
 
-    @PostMapping("/subtask/{taskId}")
-    public Task subTasks(@RequestBody SubTask subTask, @PathVariable Long taskId) {
-        return taskService.addSubTask(taskId, subTask);
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable int id) {
 
+        taskService.deleteById(id);
     }
-
-    @GetMapping("/subtask/{taskId}")
-    public List<SubTask> getAll(@PathVariable Long taskId) {
-        return taskService.getAll(taskId);
-    }
-
-    @PutMapping("/subtask/{taskId}")
-    public SubTask edit(@PathVariable Long taskId, @RequestBody SubTask subTask) {
-        return taskService.edit(taskId, subTask);
-    }
-
-//    @DeleteMapping("/subtask/{taskId}")
-//    public void delete(@PathVariable Long taskId, @RequestBody Long subTaskId) {
-//        taskService.deleteSubtask(taskId, subTaskId);
-//    }
 }

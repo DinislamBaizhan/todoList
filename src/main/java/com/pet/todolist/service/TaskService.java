@@ -103,6 +103,12 @@ public class TaskService {
         return optionalTask.map(Task::getSubTasks).orElse(null);
     }
 
+    public SubTask getSubTaskById(Long taskId, Long subtaskId) {
+        Optional<SubTask> optionalSubTask = subTaskRepository.findSubTaskByTaskIdAndId(taskId, subtaskId);
+
+        return optionalSubTask.orElse(null);
+    }
+
     public SubTask edit(Long id, SubTask subTask) {
         Optional<SubTask> optionalSubTask = subTaskRepository.findSubTaskByTaskIdAndId(id, subTask.getId());
         if (optionalSubTask.isPresent()) {

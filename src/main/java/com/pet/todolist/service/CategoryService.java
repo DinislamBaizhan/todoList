@@ -13,9 +13,11 @@ import java.util.Optional;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final ObjectMapper objectMapper;
 
-    public CategoryService(CategoryRepository categoryRepository) {
+    public CategoryService(CategoryRepository categoryRepository, ObjectMapper objectMapper) {
         this.categoryRepository = categoryRepository;
+        this.objectMapper = objectMapper;
     }
 
     public Category save(Category category) {
@@ -34,7 +36,7 @@ public class CategoryService {
     }
 
     public Category edit(String name, Long id) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
+
         var mappedName = objectMapper.readValue(name, Category.class);
         Optional<Category> optionalCategory = categoryRepository.findById(id);
         if (optionalCategory.isPresent()) {
