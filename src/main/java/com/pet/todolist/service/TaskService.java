@@ -40,27 +40,19 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public Task getByIdAndUserEmail(Long id) {
+    public Task get(Long id) {
         Profile profile = profileService.get();
-
-        Task task = null;
-        task = taskRepository.findByProfileIdAndId(profile.getId(), id);
-        return task;
+        return taskRepository.findByProfileIdAndId(profile.getId(), id);
     }
 
     public List<Task> getAllTasks() {
-
-        return taskRepository.findTasksByProfileId(profileService.get().getId());
+        Profile profile = profileService.get();
+        return taskRepository.findTasksByProfileId(profile.getId());
     }
 
-    public Task getById(Long id) {
-        return taskRepository.getReferenceById(id);
-    }
-
-    public void deleteById(int id) {
-
-        taskRepository.deleteById((long) id);
-
+    public void delete(Long id) {
+        Profile profile = profileService.get();
+        taskRepository.deleteByProfileAndId(profile, id);
     }
 
 
@@ -68,7 +60,7 @@ public class TaskService {
 
         Profile profile = profileService.get();
 
-        Optional<Category> s = categoryRepository.findById(task.getCategory().getId());
+        Optional<Category> category = categoryRepository.findById(task.getCategory().getId());
         Optional<Task> oldTask = taskRepository.findById(id);
         if (oldTask.isPresent()) {
 
@@ -76,7 +68,7 @@ public class TaskService {
             oldTask.get().setContent(task.getContent());
             oldTask.get().setPriority(task.getPriority());
             oldTask.get().setStatus(task.getStatus());
-            oldTask.get().setCategory(s.get());
+            oldTask.get().setCategory(category.get());
             oldTask.get().setProfile(profile);
 
             return taskRepository.save(oldTask.get());
@@ -88,42 +80,40 @@ public class TaskService {
 
 
     public Task addSubTask(Long taskId, SubTask subTask) {
-        Optional<Task> task = taskRepository.findById(taskId);
-        if (task.isPresent()) {
-            task.get().addSubTasks(subTask);
-            return taskRepository.save(task.get());
-        }
-        return null;
+        Task task = get(taskId);
+
+        task.addSubTasks(subTask);
+        return taskRepository.save(task);
+
     }
 
     public List<SubTask> getAll(Long id) {
-
-        Optional<Task> optionalTask = taskRepository.findById(id);
-
-        return optionalTask.map(Task::getSubTasks).orElse(null);
+        Task task = get(id);
+        return task.getSubTasks();
     }
 
     public SubTask getSubTaskById(Long taskId, Long subtaskId) {
-        Optional<SubTask> optionalSubTask = subTaskRepository.findSubTaskByTaskIdAndId(taskId, subtaskId);
-
-        return optionalSubTask.orElse(null);
+        Task task = get(taskId);
+        return task.getSubTasks().get(subtaskId.intValue());
     }
 
-    public SubTask edit(Long id, SubTask subTask) {
-        Optional<SubTask> optionalSubTask = subTaskRepository.findSubTaskByTaskIdAndId(id, subTask.getId());
-        if (optionalSubTask.isPresent()) {
+    public SubTask edit(Long taskId, Long subTaskId, SubTask subTask) {
+        SubTask editSubTask = getSubTaskById(taskId, subTaskId);
+        Task task = get(taskId);
 
-            optionalSubTask.get().setTitle(subTask.getTitle());
-            optionalSubTask.get().setContent(subTask.getContent());
-            optionalSubTask.get().setPriority(subTask.getPriority());
-            optionalSubTask.get().setStatus(subTask.getStatus());
+        editSubTask.setTitle(subTask.getTitle());
+        editSubTask.setContent(subTask.getContent());
+        editSubTask.setPriority(subTask.getPriority());
+        editSubTask.setStatus(subTask.getStatus());
+        editSubTask.setTask(task);
 
-            return subTaskRepository.save(optionalSubTask.get());
-        }
-        return null;
+        return subTaskRepository.save(editSubTask);
     }
 
     public void deleteSubtask(Long taskId, Long subTaskId) {
-        subTaskRepository.removeByTaskIdAndId(taskId, subTaskId);
+        SubTask subTask = getSubTaskById(taskId, subTaskId);
+        Task task = get(taskId);
+        task.removeSubtask(subTask);
+        taskRepository.save(task);
     }
 }

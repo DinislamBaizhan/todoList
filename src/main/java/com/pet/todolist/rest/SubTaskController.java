@@ -20,7 +20,6 @@ public class SubTaskController {
     @PostMapping("/subtask/{taskId}")
     public Task subTasks(@RequestBody SubTask subTask, @PathVariable Long taskId) {
         return taskService.addSubTask(taskId, subTask);
-
     }
 
     @GetMapping("/subtask/{taskId}")
@@ -34,8 +33,10 @@ public class SubTaskController {
     }
 
     @PutMapping("/{taskId}/subtask/{subtaskId}")
-    public SubTask edit(@PathVariable Long taskId, @PathVariable SubTask subtaskId) {
-        return taskService.edit(taskId, subtaskId);
+    public SubTask edit(@PathVariable Long taskId,
+                        @PathVariable Long subtaskId,
+                        @RequestBody SubTask subTask) {
+        return taskService.edit(taskId, subtaskId, subTask);
     }
 
     @DeleteMapping("/{taskId}/subtask/{subtaskId}")
