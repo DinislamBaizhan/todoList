@@ -5,10 +5,8 @@ import com.pet.todolist.entity.task.Task;
 import com.pet.todolist.service.ProfileService;
 import com.pet.todolist.service.TaskService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -23,41 +21,32 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Task> save(Principal principal, @RequestBody Task task) {
+    public ResponseEntity<Task> save(@RequestBody Task task) {
 
-        var profile = profileService.getByEmail(principal.getName());
-
-        var savedTask = taskService.save(task, profile);
+        var savedTask = taskService.save(task);
 
         return ResponseEntity.ok(savedTask);
 
     }
 
     @GetMapping
-    public List<Task> getAllTasks(Authentication authentication) {
-
-        Profile profile = profileService.getByEmail(authentication.getName());
-
-        return taskService.getAllTasks(profile.getId());
-
+    public List<Task> getAllTasks() {
+        return taskService.getAllTasks();
     }
 
     @GetMapping("/{id}")
-    public Task getById(@PathVariable Long id, Authentication authentication) {
-        var profile = profileService.getByEmail(authentication.getName());
-
-        return taskService.getByIdAndUserEmail(id, profile.getEmail());
+    public Task getById(@PathVariable Long id) {
+        return taskService.getByIdAndUserEmail(id);
     }
 
     @PutMapping("/{id}")
-    public Task edit(Authentication authentication, @PathVariable Long id, @RequestBody Task task) {
-        Profile profile = profileService.getByEmail(authentication.getName());
-        return taskService.edit(id, task, profile);
+    public Task edit(@PathVariable Long id, @RequestBody Task task) {
+        Profile profile = profileService.get();
+        return taskService.edit(id, task);
     }
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable int id) {
-
         taskService.deleteById(id);
     }
 }

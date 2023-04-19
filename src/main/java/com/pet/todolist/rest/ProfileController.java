@@ -2,9 +2,6 @@ package com.pet.todolist.rest;
 
 import com.pet.todolist.entity.profile.Profile;
 import com.pet.todolist.service.ProfileService;
-import com.pet.todolist.service.UserService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,32 +10,22 @@ public class ProfileController {
 
     private final ProfileService profileService;
 
-    private final UserService userService;
-
-    public ProfileController(ProfileService profileService, UserService userService) {
+    public ProfileController(ProfileService profileService) {
         this.profileService = profileService;
-        this.userService = userService;
     }
 
     @GetMapping()
-    public Profile profile() {
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        return profileService.getByEmail(auth.getName());
-
+    public Profile get() {
+        return profileService.get();
     }
 
     @PutMapping()
-    public Profile edit(@RequestBody Profile profile, Authentication authentication) {
-
-        return profileService.edit(authentication.getName(), profile);
+    public Profile edit(@RequestBody Profile profile) {
+        return profileService.edit(profile);
     }
 
     @DeleteMapping
-    public void delete(Authentication authentication) {
-        String email = authentication.getName();
-
-        profileService.delete(email);
+    public void delete() {
+        profileService.delete();
     }
 }

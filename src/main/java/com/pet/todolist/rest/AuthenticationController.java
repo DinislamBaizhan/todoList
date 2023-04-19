@@ -7,7 +7,6 @@ import com.pet.todolist.entity.user.auth.AuthenticationResponse;
 import com.pet.todolist.entity.user.auth.RegisterRequest;
 import com.pet.todolist.repository.UserRepository;
 import com.pet.todolist.service.AuthenticationService;
-import com.pet.todolist.service.ProfileService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,17 +20,12 @@ import java.util.Optional;
 @RequestMapping("/api/v1/auth")
 public class AuthenticationController {
     private final AuthenticationService service;
-
-    private final ProfileService profileService;
-
     private final UserRepository userRepository;
 
     public AuthenticationController(
             AuthenticationService service,
-            ProfileService profileService,
             UserRepository userRepository) {
         this.service = service;
-        this.profileService = profileService;
         this.userRepository = userRepository;
     }
 

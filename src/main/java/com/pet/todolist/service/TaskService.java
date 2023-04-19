@@ -5,7 +5,6 @@ import com.pet.todolist.entity.profile.Profile;
 import com.pet.todolist.entity.task.SubTask;
 import com.pet.todolist.entity.task.Task;
 import com.pet.todolist.repository.CategoryRepository;
-import com.pet.todolist.repository.ProfileRepository;
 import com.pet.todolist.repository.SubTaskRepository;
 import com.pet.todolist.repository.TaskRepository;
 import org.springframework.stereotype.Service;
@@ -16,22 +15,24 @@ import java.util.Optional;
 @Service
 public class TaskService {
 
+    private final ProfileService profileService;
     private final TaskRepository taskRepository;
-    private final ProfileRepository profileRepository;
     private final CategoryRepository categoryRepository;
     private final SubTaskRepository subTaskRepository;
 
     public TaskService(TaskRepository taskRepository,
-                       ProfileRepository profileRepository,
-                       CategoryRepository categoryRepository,
+                       ProfileService profileService, CategoryRepository categoryRepository,
                        SubTaskRepository subTaskRepository) {
         this.taskRepository = taskRepository;
-        this.profileRepository = profileRepository;
+        this.profileService = profileService;
         this.categoryRepository = categoryRepository;
         this.subTaskRepository = subTaskRepository;
     }
 
-    public Task save(Task task, Profile profile) {
+    public Task save(Task task) {
+
+        Profile profile = profileService.get();
+
         Optional<Category> category = categoryRepository.findById(task.getCategory().getId());
 
         task.setProfile(profile);
@@ -39,21 +40,17 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public Task getByIdAndUserEmail(Long id, String email) {
-        Optional<Profile> optionalProfile = profileRepository.findByEmail(email);
+    public Task getByIdAndUserEmail(Long id) {
+        Profile profile = profileService.get();
 
         Task task = null;
-
-        if (optionalProfile.isPresent()) {
-
-            task = taskRepository.findByProfileIdAndId(optionalProfile.get().getId(), id);
-        }
+        task = taskRepository.findByProfileIdAndId(profile.getId(), id);
         return task;
     }
 
-    public List<Task> getAllTasks(Long id) {
+    public List<Task> getAllTasks() {
 
-        return taskRepository.findTasksByProfileId(id);
+        return taskRepository.findTasksByProfileId(profileService.get().getId());
     }
 
     public Task getById(Long id) {
@@ -67,7 +64,10 @@ public class TaskService {
     }
 
 
-    public Task edit(Long id, Task task, Profile profile) {
+    public Task edit(Long id, Task task) {
+
+        Profile profile = profileService.get();
+
         Optional<Category> s = categoryRepository.findById(task.getCategory().getId());
         Optional<Task> oldTask = taskRepository.findById(id);
         if (oldTask.isPresent()) {
